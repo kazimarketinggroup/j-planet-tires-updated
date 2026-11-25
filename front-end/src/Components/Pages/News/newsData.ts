@@ -9,6 +9,10 @@ import newsRtxStand from '../../../assets/news/Rectangle 1111.png';
 import newsRtx1 from '../../../assets/news/J.Planet Tire at Latin Tyre & Auto Parts Expo.png';
 import newsRtx2 from '../../../assets/news/J.Planet Tire at Latin Tyre & Auto Parts Expo (1).png';
 import newsRtx3 from '../../../assets/news/J.Planet Tire at Latin Tyre & Auto Parts Expo (2).png';
+import newsAutomechanikaConnect from '../../../assets/news/WhatsApp Image 2026-11-25 at 22.26.41.jpeg';
+import newsAutomechanikaConnect2 from '../../../assets/news/WhatsApp Image 2026-11-25 at 22.26.51.jpeg';
+import newsAutomechanikaConnect3 from '../../../assets/news/WhatsApp Image 2026-11-25 at 22.27.04.jpeg';
+import newsAutomechanikaVideo from '../../../assets/news/linkedin-video-1197kbps.mp4';
 import type { TranslationKey } from '../../../i18n/translations';
 
 export type NewsCategory = 'Events' | 'Product News' | 'Company News';
@@ -17,6 +21,8 @@ export interface NewsArticle {
   slug: string;
   /** Detail-page hero and first slide of the gallery. */
   image: string;
+  /** Optional autoplay video shown as the first detail-page slide. */
+  video?: string;
   /**
    * Card image for the grid/home listings. Defaults to `image`; set it when the
    * hero is a wide crop that loses too much in the card's 651x341 box.
@@ -36,6 +42,17 @@ export interface NewsArticle {
 
 export const NEWS_ARTICLES: NewsArticle[] = [
   {
+    slug: 'connecting-at-automechanika-dubai-2026',
+    image: newsAutomechanikaConnect,
+    video: newsAutomechanikaVideo,
+    gallery: [newsAutomechanikaConnect2, newsAutomechanikaConnect3],
+    category: 'Events',
+    dateKey: 'news.n4.date',
+    titleKey: 'news.n4.title',
+    descriptionKey: 'news.n4.description',
+    bodyKeys: ['news.n4.body1', 'news.n4.body2'],
+  },
+  {
     slug: 'road-transport-expo-2026',
     image: newsRtxHero,
     thumbnail: newsRtxStand,
@@ -47,15 +64,6 @@ export const NEWS_ARTICLES: NewsArticle[] = [
     bodyKeys: ['news.n3.body1', 'news.n3.body2', 'news.n3.body3'],
   },
   {
-    slug: 'automechanika-dubai-2026',
-    image: newsAutomechanika,
-    category: 'Events',
-    dateKey: 'news.n1.date',
-    titleKey: 'news.n1.title',
-    descriptionKey: 'news.n1.description',
-    bodyKeys: ['news.n1.body1', 'news.n1.body2'],
-  },
-  {
     slug: 'latin-tyre-auto-parts-expo',
     image: newsLatinExpo,
     category: 'Events',
@@ -63,6 +71,15 @@ export const NEWS_ARTICLES: NewsArticle[] = [
     titleKey: 'news.n2.title',
     descriptionKey: 'news.n2.description',
     bodyKeys: ['news.n2.body1', 'news.n2.body2'],
+  },
+  {
+    slug: 'automechanika-dubai-2026',
+    image: newsAutomechanika,
+    category: 'Events',
+    dateKey: 'news.n1.date',
+    titleKey: 'news.n1.title',
+    descriptionKey: 'news.n1.description',
+    bodyKeys: ['news.n1.body1', 'news.n1.body2'],
   },
 ];
 

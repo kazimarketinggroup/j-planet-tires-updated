@@ -62,7 +62,7 @@ const NewsDetailPage = () => {
       <section className="w-full bg-white">
         <div className={`${CONTAINER} py-14 md:py-20 2xl:py-24`}>
           <FadeIn>
-            <NewsGallery images={getNewsImages(article)} title={t(article.titleKey)} />
+            <NewsGallery images={getNewsImages(article)} title={t(article.titleKey)} videoSrc={article.video} />
 
             <p className="mt-8 text-base font-medium leading-relaxed text-[#111111] md:text-lg 2xl:mt-10">
               {t(article.descriptionKey)}

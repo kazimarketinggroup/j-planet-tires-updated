@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 
 interface NewsGalleryProps {
   images: string[];
+  videoSrc?: string;
   /** Used for the alt text of every slide, suffixed with the slide number. */
   title: string;
 }
@@ -19,14 +20,16 @@ const slideVariants = {
   exit: (dir: number) => ({ opacity: 0, x: dir * -SLIDE_OFFSET }),
 };
 
-const NewsGallery = ({ images, title }: NewsGalleryProps) => {
+const NewsGallery = ({ images, title, videoSrc }: NewsGalleryProps) => {
   const [index, setIndex] = useState(0);
   // +1 when moving forward, -1 when moving back, so the slide animates the way
   // the user is navigating.
   const [direction, setDirection] = useState(1);
   const frameRef = useRef<HTMLDivElement>(null);
 
-  const count = images.length;
+  const imageOffset = videoSrc ? 1 : 0;
+  const count = images.length + imageOffset;
+  const thumbnailImages = videoSrc ? images : images.slice(1);
 
   const goTo = useCallback(
     (next: number, dir: number) => {
@@ -78,26 +81,46 @@ const NewsGallery = ({ images, title }: NewsGalleryProps) => {
         className="group relative aspect-[16/8] overflow-hidden rounded-2xl bg-[#0a1b3d] shadow-[0_18px_50px_rgba(15,23,42,0.12)] outline-none focus-visible:ring-2 focus-visible:ring-[#1148c6] focus-visible:ring-offset-2"
       >
         <AnimatePresence initial={false} custom={direction} mode="popLayout">
-          <motion.img
-            key={index}
-            src={images[index]}
-            alt={`${title} — ${index + 1} / ${count}`}
-            className="absolute inset-0 h-full w-full object-cover"
-            custom={direction}
-            variants={slideVariants}
-            initial="enter"
-            animate="center"
-            exit="exit"
-            transition={{ duration: 0.45, ease: 'easeOut' }}
-            drag="x"
-            dragConstraints={{ left: 0, right: 0 }}
-            dragElastic={0.15}
-            onDragEnd={(_, info) => {
-              if (info.offset.x < -SWIPE_THRESHOLD) goNext();
-              else if (info.offset.x > SWIPE_THRESHOLD) goPrev();
-            }}
-            draggable={false}
-          />
+          {videoSrc && index === 0 ? (
+            <motion.video
+              key="news-video"
+              src={videoSrc}
+              aria-label={`${title} video`}
+              className="absolute inset-0 h-full w-full object-cover"
+              autoPlay
+              muted
+              loop
+              playsInline
+              controls
+              custom={direction}
+              variants={slideVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{ duration: 0.45, ease: 'easeOut' }}
+            />
+          ) : (
+            <motion.img
+              key={`photo-${index - imageOffset}`}
+              src={images[index - imageOffset]}
+              alt={`${title} — ${index + 1} / ${count}`}
+              className="absolute inset-0 h-full w-full object-cover"
+              custom={direction}
+              variants={slideVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{ duration: 0.45, ease: 'easeOut' }}
+              drag="x"
+              dragConstraints={{ left: 0, right: 0 }}
+              dragElastic={0.15}
+              onDragEnd={(_, info) => {
+                if (info.offset.x < -SWIPE_THRESHOLD) goNext();
+                else if (info.offset.x > SWIPE_THRESHOLD) goPrev();
+              }}
+              draggable={false}
+            />
+          )}
         </AnimatePresence>
 
         <button
@@ -127,17 +150,17 @@ const NewsGallery = ({ images, title }: NewsGalleryProps) => {
         </span>
       </div>
 
-      {/* Thumbnail strip — the hero is already on screen, so only the extra shots. */}
+      {/* The video is the first slide when present; show every photo below it. */}
       <div className="mt-4 grid grid-cols-3 gap-3 sm:gap-4">
-        {images.slice(1).map((image, i) => {
-          const slide = i + 1; // index into `images`, since the hero is sliced off
+        {thumbnailImages.map((image, i) => {
+          const slide = i + 1;
           return (
             <button
               key={image}
               type="button"
               onClick={() => goTo(slide, slide > index ? 1 : -1)}
-              aria-label={`Show photo ${slide + 1}`}
-              aria-current={slide === index}
+              aria-label={`Show photo ${i + (videoSrc ? 1 : 2)}`}
+              aria-current={slide === index ? 'true' : undefined}
               className={`aspect-[16/9] overflow-hidden rounded-xl transition ${
                 slide === index ? 'ring-2 ring-[#1148c6] ring-offset-2' : 'opacity-70 hover:opacity-100'
               }`}

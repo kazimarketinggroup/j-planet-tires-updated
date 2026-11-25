@@ -156,6 +156,14 @@ const en = {
     'Throughout the event, our team showcased our latest commercial tyre solutions, discussed industry trends, and connected with visitors from across the UK and beyond. RTX provided an excellent opportunity to strengthen existing relationships, introduce our products to new customers, and exchange ideas with professionals from across the road transport sector.',
   'news.n3.body3':
     'We would like to thank everyone who visited Stand GR13 and took the time to meet with our team. We appreciate your interest in J. Planet Tires and look forward to continuing the conversations and building lasting partnerships.',
+  'news.n4.date': '12 May 2026',
+  'news.n4.title': 'Connecting at Automechanika Dubai 2026',
+  'news.n4.description':
+    'Another successful year at Automechanika Dubai brought the J.Planet Tire team together once again.',
+  'news.n4.body1':
+    'It was a great opportunity to reconnect with industry partners, meet new people, strengthen existing relationships and explore new business opportunities.',
+  'news.n4.body2':
+    'We look forward to building on these connections and creating new opportunities for the future.',
 
   // Home — CTA banner
   'cta.title': "Let's put J.Planet on your fleet.",
