@@ -16,7 +16,7 @@ const NewsSection = () => {
           {NEWS_ARTICLES.map((item, index) => (
             <FadeIn key={item.slug} delay={index * 0.1}>
               <Link
-                to="/news"
+                to={`/news/${item.slug}`}
                 className="group block h-full rounded-xl bg-white shadow-sm p-5 border transition-shadow hover:shadow-[0_14px_40px_rgba(15,23,42,0.08)] 2xl:p-6 3xl:p-7"
               >
                 <div className="relative overflow-hidden rounded-xl">
